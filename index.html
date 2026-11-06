@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101411">
+<meta name="description" content="The personal website of Lizon Mahmud.">
+<title>Lizon Mahmud — Personal Website</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  color-scheme: dark;
+  --bg: #101411;
+  --panel: #181e19;
+  --panel-light: #202821;
+  --text: #f0f2eb;
+  --muted: #a0aaa1;
+  --accent: #c5ef91;
+  --border: rgba(229,242,222,.12);
+  --radius: 25px;
+  --ease: cubic-bezier(.22,1,.36,1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: 'DM Sans',sans-serif;
+  line-height: 1.65;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 90% 0%,#a8c7870a,transparent 45%),
+    radial-gradient(ellipse at 0% 65%,#789d6f08,transparent 45%);
+}
+a { color: inherit; text-decoration: none; }
+button,input,textarea { font: inherit; }
+button { cursor: pointer; }
+button,a,input,textarea { -webkit-tap-highlight-color: transparent; }
+button { color: inherit; }
+h1,h2,h3,p { margin-top: 0; }
+h1,h2,h3 { font-family: 'Manrope',sans-serif; }
+h1,h2 { font-weight: 500; line-height: 1.06; letter-spacing: -.065em; }
+p { color: var(--muted); }
+::selection { background: var(--accent); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+[hidden] { display: none !important; }
+.container { width: min(1220px,calc(100% - 64px)); margin-inline: auto; }
+.skip {
+  position: fixed; left: 20px; top: -100px; z-index: 100;
+  background: var(--accent); color: var(--bg); padding: 12px 20px;
+}
+.skip:focus { top: 15px; }
+
+.progress {
+  position: fixed; top: 0; left: 0; height: 2px; width: 100%;
+  background: var(--accent); z-index: 100;
+  transform: scaleX(0); transform-origin: left;
+}
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 25px; padding-block: 25px; border-bottom: 1px solid var(--border);
+}
+.logo { display: flex; align-items: center; gap: 11px; font-size: 14px; font-weight: 600; }
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--accent); color: #172015; display: grid;
+  place-items: center; font-family: 'Manrope',sans-serif; font-size: 12px; font-weight: 800;
+}
+.nav { display: flex; align-items: center; gap: 6px; }
+.nav a {
+  padding: 9px 18px; border-radius: 30px; color: var(--muted);
+  font-size: 12px; transition: color .25s,background .25s;
+}
+.nav a:hover,.nav a[aria-current] { color: var(--text); background: #ffffff08; }
+.nav a[aria-current]::before {
+  content: ""; display: inline-block; width: 5px; height: 5px;
+  background: var(--accent); border-radius: 50%; margin-right: 7px;
+}
+.header-link { font-size: 12px; border-bottom: 1px solid #68765e; padding-bottom: 5px; }
+.menu-button { display: none; }
+.page { padding-bottom: 90px; }
+.eyebrow { color: var(--accent); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; }
+.dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 8px; }
+
+.hero {
+  display: grid; grid-template-columns: 1.25fr 1fr; gap: 65px;
+  align-items: center; padding-block: 85px 65px;
+}
+.hero h1 { font-size: clamp(62px,7.5vw,104px); margin: 27px 0; }
+.hero h1 span { color: var(--accent); }
+.hero-description { max-width: 420px; font-size: 15px; line-height: 1.9; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.button {
+  min-height: 49px; padding: 13px 21px; border: 1px solid var(--border);
+  border-radius: 100px; display: inline-flex; justify-content: center;
+  align-items: center; gap: 28px; background: transparent;
+  font-size: 12px; font-weight: 500; position: relative;
+  transition: background .25s,box-shadow .25s;
+}
+.button-primary {
+  background: var(--accent); color: #172015; border-color: var(--accent);
+  box-shadow: inset 0 1px 0 #ffffff65;
+}
+.button:hover { background: #ffffff0b; }
+.button-primary:hover { background: #d4ffa5; box-shadow: 0 8px 30px #c5ef9118; }
+.button .arrow { transition: transform .3s var(--ease); }
+.button:hover .arrow { transform: translate(3px,-3px); }
+.hero-footnote { display: flex; gap: 10px; align-items: center; color: #7d897d; margin-top: 30px; font-size: 10px; }
+.short-line { height: 1px; width: 30px; background: #5f7055; }
+
+.identity-card {
+  position: relative; aspect-ratio: .86; max-width: 455px;
+  background: #222d24; border-radius: 180px 180px 24px 24px;
+  border: 1px solid #c9e0bb1c; overflow: hidden; isolation: isolate;
+  transform-style: preserve-3d;
+}
+.identity-card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(ellipse at 50% 15%,#9ab78333,transparent 55%),
+    linear-gradient(150deg,#ffffff05,transparent 50%,#0005);
+}
+.identity-card::after {
+  content: ""; position: absolute; inset: 12px;
+  border: 1px solid #d4e9c710; border-radius: inherit; pointer-events: none;
+}
+#identity-canvas { width: 100%; height: 100%; position: absolute; inset: 0; }
+.monogram {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: 'Manrope',sans-serif; font-size: clamp(100px,15vw,190px);
+  font-weight: 500; letter-spacing: -.12em; padding-right: .12em;
+  color: #d9edcf; text-shadow: 0 20px 50px #0003;
+}
+.card-label {
+  position: absolute; left: 30px; right: 30px; bottom: 28px;
+  display: flex; justify-content: space-between; align-items: end;
+}
+.card-label strong { display: block; font-size: 15px; font-weight: 500; }
+.card-label small { display: block; color: #a5b59d; font-size: 9px; letter-spacing: .15em; margin-top: 4px; }
+.card-label .round-arrow { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid #d3e4c833; border-radius: 50%; }
+.card-topline { position: absolute; left: 0; right: 0; top: 45px; text-align: center; color: #aabca1; font-size: 9px; letter-spacing: .2em; }
+
+.intro-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: 25px;
+  padding: 25px 0; border-block: 1px solid var(--border);
+}
+.intro-strip p { margin: 0; font-size: 12px; max-width: 440px; }
+.wordmarks { display: flex; gap: 30px; color: #d0d7c9; font-family: 'Manrope',sans-serif; font-size: 13px; }
+
+.section { padding-top: 85px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 35px; }
+.section-heading h2 { font-size: clamp(36px,4.2vw,56px); margin: 16px 0 0; }
+.section-heading > p { max-width: 290px; font-size: 13px; margin: 0; }
+.feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.card {
+  padding: 29px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: linear-gradient(145deg,#ffffff04,#ffffff01);
+  position: relative; overflow: hidden;
+}
+.spotlight::before {
+  content: ""; pointer-events: none; position: absolute; inset: 0; opacity: 0;
+  background: radial-gradient(320px circle at var(--x,50%) var(--y,50%),#c5ef9110,transparent 65%);
+  transition: opacity .3s;
+}
+.spotlight:hover::before { opacity: 1; }
+.card-number { font-size: 10px; color: #84947d; }
+.card-icon { display: block; color: var(--accent); font-size: 30px; margin: 24px 0; }
+.card h3 { font-size: 19px; font-weight: 500; letter-spacing: -.04em; margin-bottom: 13px; }
+.card p { font-size: 12px; margin: 0; line-height: 1.9; }
+.card-link { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; font-size: 11px; color: #ccd7c5; }
+
+.bottom-cta {
+  margin-top: 85px; padding: 50px; border-radius: var(--radius);
+  border: 1px solid var(--border); background: #1d271e;
+  display: flex; justify-content: space-between; align-items: center; gap: 30px;
+}
+.bottom-cta h2 { font-size: clamp(32px,4vw,50px); margin: 14px 0 0; }
+.page-intro { padding: 85px 0 45px; max-width: 850px; }
+.page-intro h1 { font-size: clamp(52px,7vw,86px); margin: 23px 0; }
+.page-intro p { font-size: 15px; max-width: 540px; }
+
+.about-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 24px; }
+.about-emblem {
+  min-height: 340px; border-radius: var(--radius); background: #c5ef91;
+  color: #22321d; display: flex; flex-direction: column; justify-content: space-between;
+  padding: 35px; overflow: hidden;
+}
+.about-emblem .huge-lm { font-family: 'Manrope',sans-serif; font-size: 135px; line-height: 1; letter-spacing: -.13em; }
+.about-emblem small { font-size: 10px; letter-spacing: .15em; }
+.about-copy { padding: 40px; }
+.about-copy h2 { font-size: 35px; margin-top: 20px; }
+.about-copy p { font-size: 14px; }
+.detail-list { margin-top: 30px; }
+.detail-row { padding: 15px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 20px; font-size: 12px; }
+.detail-row span { color: var(--muted); }
+.detail-row strong { font-weight: 400; text-align: right; }
+
+.contact-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 30px; }
+.contact-info { padding: 34px; }
+.contact-info h2 { font-size: 35px; margin: 23px 0; }
+.contact-info p { font-size: 13px; }
+.email-display { display: block; color: var(--accent); font-size: 13px; margin-block: 30px 17px; overflow-wrap: anywhere; }
+.copy-button { font-size: 11px; padding: 10px 16px; min-height: 40px; }
+.contact-form { padding: 34px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 9px; margin-bottom: 20px; }
+.field label { font-size: 11px; color: #c1cbbb; }
+.field input,.field textarea {
+  width: 100%; padding: 14px 15px; background: #10161080;
+  color: var(--text); border: 1px solid var(--border); border-radius: 11px;
+  outline-offset: 3px; font-size: 13px; transition: border-color .25s;
+}
+.field textarea { resize: vertical; min-height: 145px; }
+.field input:focus,.field textarea:focus { border-color: #c5ef9177; }
+.form-note { font-size: 10px; margin-top: 15px; }
+.status { min-height: 22px; color: var(--accent); font-size: 12px; margin-top: 15px; }
+.faq { margin-top: 65px; }
+.faq h2 { font-size: 36px; }
+details { border-top: 1px solid var(--border); }
+details:last-child { border-bottom: 1px solid var(--border); }
+summary { cursor: pointer; padding: 22px 0; font-size: 14px; list-style: none; display: flex; justify-content: space-between; gap: 20px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; color: var(--accent); }
+details[open] summary::after { content: "−"; }
+details p { font-size: 13px; max-width: 700px; padding-bottom: 15px; }
+
+.footer { border-top: 1px solid var(--border); padding-block: 28px; display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+.footer p { font-size: 10px; margin: 0; }
+.footer-links { display: flex; gap: 22px; font-size: 11px; color: #bac5b4; }
+.back-top { border: 0; background: transparent; font-size: 11px; }
+
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translate(-50%,20px);
+  background: #d6f5b9; color: #1d2b17; padding: 12px 22px; border-radius: 50px;
+  font-size: 12px; z-index: 100; opacity: 0; pointer-events: none;
+  transition: opacity .25s,transform .25s; max-width: calc(100% - 30px); text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%,0); }
+
+@media (prefers-reduced-motion:no-preference) {
+  .js .reveal { opacity: 0; transform: translateY(25px); transition: opacity .8s var(--ease),transform .8s var(--ease); }
+  .js .reveal.visible { opacity: 1; transform: none; }
+}
+@media (max-width:950px) {
+  .hero { gap: 30px; }
+  .hero h1 { font-size: 72px; }
+  .card { padding: 24px; }
+  .header-link { display: none; }
+  .contact-layout { grid-template-columns: 1fr 1.2fr; }
+}
+@media (max-width:700px) {
+  .container { width: calc(100% - 36px); }
+  .header { padding-block: 20px; position: relative; }
+  .menu-button { display: block; border: 1px solid var(--border); border-radius: 30px; background: transparent; padding: 8px 16px; font-size: 11px; }
+  .nav {
+    display: none; position: absolute; top: 85px; left: 0; right: 0;
+    padding: 15px; background: #1a221af5; backdrop-filter: blur(20px);
+    border: 1px solid var(--border); border-radius: 20px; z-index: 20;
+    box-shadow: 0 20px 40px #0005;
+  }
+  .nav.open { display: flex; flex-direction: column; align-items: stretch; }
+  .nav a { padding: 14px 18px; }
+  .hero { grid-template-columns: 1fr; padding-top: 55px; gap: 40px; }
+  .hero h1 { font-size: clamp(62px,14vw,88px); }
+  .hero-description { max-width: 100%; }
+  .identity-card { width: 100%; max-width: 420px; margin-inline: auto; aspect-ratio: 1; }
+  .monogram { font-size: 160px; }
+  .intro-strip { align-items: start; flex-direction: column; gap: 20px; }
+  .wordmarks { gap: 25px; font-size: 12px; }
+  .section { padding-top: 60px; }
+  .section-heading { flex-direction: column; align-items: start; gap: 18px; }
+  .feature-grid,.about-layout,.contact-layout { grid-template-columns: 1fr; }
+  .bottom-cta { margin-top: 60px; padding: 30px; align-items: start; flex-direction: column; }
+  .page-intro { padding-top: 60px; }
+  .page-intro h1 { font-size: clamp(49px,11vw,72px); }
+  .about-copy,.contact-info,.contact-form { padding: 26px; }
+  .about-emblem { min-height: 300px; }
+  .footer { flex-wrap: wrap; }
+  .footer-links { order: 3; width: 100%; }
+  .form-grid { grid-template-columns: 1fr; gap: 0; }
+  .page { padding-bottom: 60px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="header container">
+  <a href="#home" class="logo" aria-label="Lizon Mahmud home">
+    <span class="logo-mark">LM</span>
+    <span>Lizon Mahmud</span>
+  </a>
+
+  <button class="menu-button" type="button"
+    aria-expanded="false" aria-controls="navigation">Menu</button>
+
+  <nav class="nav" id="navigation" aria-label="Main navigation">
+    <a href="#home" data-route="home">Home</a>
+    <a href="#about" data-route="about">About</a>
+    <a href="#contact" data-route="contact">Contact</a>
+  </nav>
+
+  <a class="header-link" href="#contact">Let’s connect ↗</a>
+</header>
+
+<main id="main" tabindex="-1">
+  <!-- HOME -->
+  <section class="page container" id="home" aria-labelledby="home-title">
+    <div class="hero">
+      <div>
+        <div class="eyebrow reveal"><span class="dot"></span> A personal introduction</div>
+
+        <h1 id="home-title" class="reveal">Hello, I’m<br><span>Lizon<br>Mahmud.</span></h1>
+
+        <p class="hero-description reveal" data-bio>
+          Welcome to my personal space on the web.
+          A place to introduce myself, share what matters to me,
+          and start meaningful conversations.
+        </p>
+
+        <div class="actions reveal">
+          <a href="#about" class="button button-primary magnetic">
+            More about me <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="#contact" class="button">
+            Get in touch <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div class="hero-footnote reveal">
+          <span class="short-line"></span> A little introduction. A new connection.
+        </div>
+      </div>
+
+      <div class="identity-card reveal" id="identity-card">
+        <canvas id="identity-canvas" aria-hidden="true"></canvas>
+        <div class="card-topline">A PERSONAL PERSPECTIVE</div>
+        <div class="monogram" aria-hidden="true">LM</div>
+        <div class="card-label">
+          <div>
+            <strong>Lizon Mahmud</strong>
+            <small>THE PERSON BEHIND THE NAME</small>
+          </div>
+          <a href="#about" class="round-arrow" aria-label="Read about Lizon">↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="intro-strip reveal">
+      <p>More than a name on a screen. This is a starting point
+        for getting to know me.</p>
+      <div class="wordmarks" aria-label="Website themes">
+        <span>Perspective.</span>
+        <span>Purpose.</span>
+        <span>Connection.</span>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <div>
+          <span class="eyebrow">A closer look</span>
+          <h2>Keep it personal.<br>Make it meaningful.</h2>
+        </div>
+        <p>An introduction, a little context, and an easy way to connect.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="card spotlight reveal">
+          <span class="card-number">01 / INTRODUCTION</span>
+          <span class="card-icon" aria-hidden="true">↗</span>
+          <h3>The person behind it.</h3>
+          <p>Get to know the name behind this website and the story
+            this space is here to tell.</p>
+          <a href="#about" class="card-link">Meet Lizon <span>↗</span></a>
+        </article>
+
+        <article class="card spotlight reveal">
+          <span class="card-number">02 / PERSPECTIVE</span>
+          <span class="card-icon" aria-hidden="true">◎</span>
+          <h3>A space of my own.</h3>
+          <p>A simple home for personal updates, ideas, and the things
+            I choose to share along the way.</p>
+          <a href="#about" class="card-link">Explore the introduction <span>↗</span></a>
+        </article>
+
+        <article class="card spotlight reveal">
+          <span class="card-number">03 / CONNECTION</span>
+          <span class="card-icon" aria-hidden="true">⌁</span>
+          <h3>Start a conversation.</h3>
+          <p>A question, an idea, or a simple hello.
+            A good connection can start with a short message.</p>
+          <a href="#contact" class="card-link">Say hello <span>↗</span></a>
+        </article>
+      </div>
+    </section>
+
+    <div class="bottom-cta reveal">
+      <div>
+        <span class="eyebrow">Good conversations start somewhere</span>
+        <h2>Let’s start with hello.</h2>
+      </div>
+      <a href="#contact" class="button button-primary magnetic">
+        Get in touch <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="page container" id="about" aria-labelledby="about-title" hidden>
+    <div class="page-intro">
+      <span class="eyebrow reveal">A little about me</span>
+      <h1 class="reveal" id="about-title">Behind the name.<br>Beyond the screen.</h1>
+      <p class="reveal">I’m Lizon Mahmud. Welcome to the place
+        where my personal introduction begins.</p>
+    </div>
+
+    <div class="about-layout">
+      <div class="about-emblem reveal">
+        <small>PERSONAL / INTRODUCTION</small>
+        <span class="huge-lm" aria-hidden="true">LM.</span>
+        <span>Lizon Mahmud ↗</span>
+      </div>
+
+      <article class="card about-copy reveal">
+        <span class="eyebrow">Hello again</span>
+        <h2>A name.<br>A personal story.</h2>
+
+        <p data-about>
+          This website is my own corner of the internet:
+          a place to introduce myself and make it easier to connect.
+          As this space grows, it can hold more of my journey,
+          interests, and work.
+        </p>
+
+        <div class="detail-list">
+          <div class="detail-row"><span>Name</span><strong>Lizon Mahmud</strong></div>
+          <div class="detail-row"><span>Website</span><strong>Personal introduction</strong></div>
+          <div class="detail-row"><span>Next step</span><a href="#contact">Start a conversation ↗</a></div>
+        </div>
+      </article>
+    </div>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <div>
+          <span class="eyebrow">The idea behind this space</span>
+          <h2>Simple. Thoughtful.<br>Genuinely personal.</h2>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <article class="card spotlight reveal">
+          <span class="card-number">01</span>
+          <span class="card-icon" aria-hidden="true">◌</span>
+          <h3>A clear introduction</h3>
+          <p>A straightforward place to learn who I am,
+            without the noise or unnecessary complexity.</p>
+        </article>
+        <article class="card spotlight reveal">
+          <span class="card-number">02</span>
+          <span class="card-icon" aria-hidden="true">✳</span>
+          <h3>Room to grow</h3>
+          <p>A personal space that can evolve with new stories,
+            interests, and experiences.</p>
+        </article>
+        <article class="card spotlight reveal">
+          <span class="card-number">03</span>
+          <span class="card-icon" aria-hidden="true">↗</span>
+          <h3>An open conversation</h3>
+          <p>A direct path from discovering my website
+            to introducing yourself.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page container" id="contact" aria-labelledby="contact-title" hidden>
+    <div class="page-intro">
+      <span class="eyebrow reveal">Let’s connect</span>
+      <h1 class="reveal" id="contact-title">A conversation<br>starts here.</h1>
+      <p class="reveal">Have something in mind? Introduce yourself,
+        share your idea, or simply say hello.</p>
+    </div>
+
+    <div class="contact-layout">
+      <aside class="card contact-info reveal">
+        <span class="eyebrow">Direct contact</span>
+        <h2>Good to<br>hear from you.</h2>
+        <p>Use the form to prepare a message in your email app,
+          or copy the email address when it has been added.</p>
+
+        <span class="email-display" id="email-display">Email address not added yet</span>
+        <button class="button copy-button" id="copy-email" type="button">Copy email ↗</button>
+
+        <div class="detail-list">
+          <div class="detail-row"><span>Contact</span><strong>Lizon Mahmud</strong></div>
+          <div class="detail-row"><span>Message delivery</span><strong>Your email app</strong></div>
+        </div>
+      </aside>
+
+      <form class="card contact-form reveal" id="contact-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" autocomplete="name"
+              placeholder="How should I address you?" required maxlength="100">
+          </div>
+          <div class="field">
+            <label for="email">Your email</label>
+            <input id="email" name="email" type="email" autocomplete="email"
+              placeholder="you@example.com" required maxlength="200">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" placeholder="What’s on your mind?"
+            required maxlength="160">
+        </div>
+
+        <div class="field">
+          <label for="message">Your message</label>
+          <textarea id="message" name="message" placeholder="Tell me a little more..."
+            required maxlength="5000"></textarea>
+        </div>
+
+        <button class="button button-primary magnetic" type="submit">
+          Prepare email <span class="arrow" aria-hidden="true">↗</span>
+        </button>
+
+        <p class="form-note">Opens an email draft. Nothing is submitted to a server.</p>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <section class="faq reveal">
+      <span class="eyebrow">A few details</span>
+      <h2>Before you say hello.</h2>
+
+      <details>
+        <summary>How does the contact form work?</summary>
+        <p>It prepares a message in your email app.
+          You review the draft and send it yourself.
+          The form does not send messages directly.</p>
+      </details>
+      <details>
+        <summary>What can I write about?</summary>
+        <p>You can introduce yourself, ask a question,
+          or share an idea you would like to discuss.</p>
+      </details>
+      <details>
+        <summary>Is my message saved on this website?</summary>
+        <p>This version does not send your form entries to a server
+          or save them in browser storage.</p>
+      </details>
+    </section>
+  </section>
+</main>
+
+<footer class="footer container">
+  <p>© <span id="year"></span> Lizon Mahmud.</p>
+  <div class="footer-links">
+    <a href="#home">Home</a><a href="#about">About</a><a href="#contact">Contact</a>
+  </div>
+  <button class="back-top" id="back-top" type="button">Back to top ↑</button>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+/* PERSONAL DETAILS — edit these values. */
+const PROFILE = {
+  name: "Lizon Mahmud",
+  email: "", // Add your real email address here.
+  bio: "Welcome to my personal space on the web. A place to introduce myself, share what matters to me, and start meaningful conversations.",
+  about: "This website is my own corner of the internet: a place to introduce myself and make it easier to connect. As this space grows, it can hold more of my journey, interests, and work."
+};
+
+const $ = selector => document.querySelector(selector);
+const $$ = selector => [...document.querySelectorAll(selector)];
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+
+document.documentElement.classList.add("js");
+$("#year").textContent = new Date().getFullYear();
+$("[data-bio]").textContent = PROFILE.bio;
+$("[data-about]").textContent = PROFILE.about;
+
+let toastTimer;
+
+function notify(message) {
+  const toast = $("#toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 3200);
+}
+
+/* Mobile menu */
+const menu = $(".menu-button");
+const nav = $(".nav");
+
+function closeMenu() {
+  nav.classList.remove("open");
+  menu.setAttribute("aria-expanded", "false");
+}
+
+menu.addEventListener("click", () => {
+  const open = menu.getAttribute("aria-expanded") !== "true";
+  nav.classList.toggle("open", open);
+  menu.setAttribute("aria-expanded", String(open));
+});
+
+document.addEventListener("click", event => {
+  if (!event.target.closest(".header")) closeMenu();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && nav.classList.contains("open")) {
+    closeMenu();
+    menu.focus();
+  }
+});
+
+/* Scroll reveal */
+let revealObserver;
+
+if ("IntersectionObserver" in window) {
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("visible");
+      revealObserver.unobserve(entry.target);
+    });
+  }, { threshold: .08 });
+}
+
+function revealPage(page) {
+  $$(".page:not([hidden]) .reveal").forEach((element, index) => {
+    if (reduceMotion.matches || !revealObserver) {
+      element.classList.add("visible");
+      return;
+    }
+
+    element.style.transitionDelay = `${Math.min(index % 4, 3) * 65}ms`;
+    revealObserver.observe(element);
+  });
+}
+
+/* Three hash-routed page views */
+const pages = $$(".page");
+let currentPage = null;
+let routeAnimation = null;
+
+function renderRoute(initial = false) {
+  const requested = location.hash.slice(1) || "home";
+  const target = pages.find(page => page.id === requested) || $("#home");
+
+  if (target === currentPage) {
+    closeMenu();
+    return;
+  }
+
+  routeAnimation?.cancel();
+  pages.forEach(page => { page.hidden = page !== target; });
+  currentPage = target;
+
+  $$("[data-route]").forEach(link => {
+    if (link.dataset.route === target.id) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+
+  const titles = {
+    home: "Lizon Mahmud — Personal Website",
+    about: "About — Lizon Mahmud",
+    contact: "Contact — Lizon Mahmud"
+  };
+
+  document.title = titles[target.id];
+  closeMenu();
+
+  if (!initial) {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    $("#main").focus({ preventScroll: true });
+
+    if (!reduceMotion.matches && target.animate) {
+      routeAnimation = target.animate(
+        [
+          { opacity: .25, transform: "translateY(14px)" },
+          { opacity: 1, transform: "translateY(0)" }
+        ],
+        { duration: 550, easing: "cubic-bezier(.22,1,.36,1)" }
+      );
+    }
+  }
+
+  revealPage(target);
+  updateProgress();
+  startCanvas();
+}
+
+window.addEventListener("hashchange", () => renderRoute());
+
+/* Scroll progress, batched with requestAnimationFrame */
+let scrollFrame = null;
+
+function updateProgress() {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  const progress = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+  $(".progress").style.transform = `scaleX(${progress})`;
+}
+
+window.addEventListener("scroll", () => {
+  if (scrollFrame !== null) return;
+  scrollFrame = requestAnimationFrame(() => {
+    updateProgress();
+    scrollFrame = null;
+  });
+}, { passive: true });
+
+$("#back-top").addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: reduceMotion.matches ? "instant" : "smooth"
+  });
+});
+
+/* Card spotlight */
+$$(".spotlight").forEach(card => {
+  let frame = null;
+  let x = 0;
+  let y = 0;
+
+  card.addEventListener("pointermove", event => {
+    if (!finePointer.matches || reduceMotion.matches) return;
+
+    const rect = card.getBoundingClientRect();
+    x = event.clientX - rect.left;
+    y = event.clientY - rect.top;
+
+    if (frame !== null) return;
+    frame = requestAnimationFrame(() => {
+      card.style.setProperty("--x", `${x}px`);
+      card.style.setProperty("--y", `${y}px`);
+      frame = null;
+    });
+  });
+});
+
+/* Restrained magnetic buttons */
+$$(".magnetic").forEach(button => {
+  button.addEventListener("pointermove", event => {
+    if (!finePointer.matches || reduceMotion.matches || !button.animate) return;
+
+    const rect = button.getBoundingClientRect();
+    const x = (event.clientX - rect.left - rect.width / 2) * .10;
+    const y = (event.clientY - rect.top - rect.height / 2) * .16;
+
+    button.style.transform = `translate(${x}px,${y}px)`;
+  });
+
+  button.addEventListener("pointerleave", () => {
+    button.style.transition = "transform .5s cubic-bezier(.22,1,.36,1)";
+    button.style.transform = "";
+  });
+
+  button.addEventListener("pointerenter", () => {
+    button.style.transition = "";
+  });
+});
+
+/* Animated identity artwork */
+const canvas = $("#identity-canvas");
+const context = canvas.getContext("2d");
+const identityCard = $("#identity-card");
+
+let canvasFrame = null;
+let canvasWidth = 1;
+let canvasHeight = 1;
+let timeOrigin = performance.now();
+let pointer = { x: 0, y: 0 };
+
+function resizeCanvas() {
+  const rect = identityCard.getBoundingClientRect();
+  if (!rect.width || !rect.height || !context) return;
+
+  canvasWidth = rect.width;
+  canvasHeight = rect.height;
+
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = Math.round(canvasWidth * dpr);
+  canvas.height = Math.round(canvasHeight * dpr);
+  context.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawArtwork(now) {
+  if (!context) return;
+
+  const t = reduceMotion.matches ? 0 : (now - timeOrigin) / 1000;
+  const w = canvasWidth;
+  const h = canvasHeight;
+
+  context.clearRect(0, 0, w, h);
+
+  const cx = w / 2 + pointer.x * 8;
+  const cy = h * .47 + pointer.y * 8;
+
+  for (let i = 0; i < 6; i++) {
+    context.save();
+    context.translate(cx, cy);
+    context.rotate(-.55 + i * .13 + Math.sin(t * .18) * .09);
+    context.beginPath();
+    context.ellipse(0, 0, w * (.28 + i * .035), h * (.16 + i * .018), 0, 0, Math.PI * 2);
+    context.strokeStyle = `rgba(211,239,188,${.10 + i * .015})`;
+    context.lineWidth = 1;
+    context.stroke();
+    context.restore();
+  }
+
+  for (let i = 0; i < 22; i++) {
+    const seed = i * 2.39996;
+    const radius = w * (.2 + (i % 5) * .055);
+    const angle = seed + t * (i % 2 ? .04 : -.03);
+    const x = cx + Math.cos(angle) * radius;
+    const y = cy + Math.sin(angle) * radius * .8;
+
+    context.beginPath();
+    context.arc(x, y, i % 6 === 0 ? 2 : .8, 0, Math.PI * 2);
+    context.fillStyle = i % 6 === 0 ? "#d1edb6" : "#b7d2a34d";
+    context.fill();
+  }
+}
+
+function canvasTick(now) {
+  canvasFrame = null;
+  drawArtwork(now);
+
+  if (!reduceMotion.matches && !document.hidden && !$("#home").hidden) {
+    canvasFrame = requestAnimationFrame(canvasTick);
+  }
+}
+
+function startCanvas() {
+  if (canvasFrame !== null) cancelAnimationFrame(canvasFrame);
+  canvasFrame = null;
+
+  if (!context || $("#home").hidden || document.hidden) return;
+  resizeCanvas();
+  drawArtwork(performance.now());
+
+  if (!reduceMotion.matches) {
+    canvasFrame = requestAnimationFrame(canvasTick);
+  }
+}
+
+identityCard.addEventListener("pointermove", event => {
+  if (!finePointer.matches || reduceMotion.matches) return;
+  const rect = identityCard.getBoundingClientRect();
+  pointer.x = (event.clientX - rect.left) / rect.width - .5;
+  pointer.y = (event.clientY - rect.top) / rect.height - .5;
+});
+
+identityCard.addEventListener("pointerleave", () => {
+  pointer.x = 0;
+  pointer.y = 0;
+});
+
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  updateProgress();
+  if (reduceMotion.matches) drawArtwork(performance.now());
+});
+
+document.addEventListener("visibilitychange", startCanvas);
+reduceMotion.addEventListener("change", () => {
+  revealPage(currentPage);
+  startCanvas();
+});
+
+/* Contact: no invented email and no fake success states */
+const emailDisplay = $("#email-display");
+const copyButton = $("#copy-email");
+
+if (PROFILE.email) {
+  emailDisplay.textContent = PROFILE.email;
+}
+
+copyButton.addEventListener("click", async () => {
+  if (!PROFILE.email) {
+    notify("An email address has not been added yet.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(PROFILE.email);
+    notify("Email address copied.");
+  } catch {
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(emailDisplay);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    notify("Email selected. Copy it using your device’s copy command.");
+  }
+});
+
+$("#contact-form").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const status = $("#form-status");
+
+  if (!PROFILE.email) {
+    status.textContent = "The owner’s email address has not been added yet.";
+    return;
+  }
+
+  const data = new FormData(event.currentTarget);
+  const subject = String(data.get("subject")).trim();
+
+  const body = [
+    `Name: ${String(data.get("name")).trim()}`,
+    `Email: ${String(data.get("email")).trim()}`,
+    "",
+    String(data.get("message")).trim()
+  ].join("\n");
+
+  const href = `mailto:${encodeURIComponent(PROFILE.email)}`
+    + `?subject=${encodeURIComponent(subject)}`
+    + `&body=${encodeURIComponent(body)}`;
+
+  status.textContent = "Opening an email draft. Review it and send it from your email app.";
+  window.location.href = href;
+});
+
+renderRoute(true);
+</script>
+</body>
+</html>

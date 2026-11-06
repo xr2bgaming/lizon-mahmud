@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#060711">
+  <title>The Portal — AETHERIA</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="grid-floor"></div>
+  </div>
+  <div class="cursor-light" aria-hidden="true"></div>
+
+  <header class="header">
+    <a class="brand" href="index.html">
+      <span class="brand-icon" aria-hidden="true">✳</span>AETHERIA<span class="brand-dot">.</span>
+    </a>
+    <button class="menu-toggle" aria-expanded="false"
+      aria-controls="navigation" aria-label="Toggle navigation">
+      <span></span><span></span>
+    </button>
+    <nav id="navigation" class="navigation" aria-label="Main navigation">
+      <a href="index.html">Dimension</a>
+      <a href="technology.html">Technology</a>
+      <a href="portal.html" aria-current="page">The Portal</a>
+    </nav>
+    <a class="button button-small header-cta" href="#console">Launch console <span>↗</span></a>
+  </header>
+
+  <main id="main" class="container">
+    <section class="page-intro portal-intro reveal">
+      <div class="eyebrow"><span class="status-dot"></span> YOUR PERSONAL DIGITAL ATMOSPHERE</div>
+      <h1>Find your<br><span class="gradient-text">frequency.</span></h1>
+      <p class="lead">A small escape into light and motion.
+        Adjust the atmosphere. Make the moment yours.</p>
+    </section>
+
+    <section class="portal-layout section" id="console" aria-label="Interactive portal console">
+      <div class="portal-stage glass-card reveal">
+        <div class="stage-top">
+          <span><span class="status-dot"></span> VISUAL CORE</span>
+          <span id="stage-state">STANDBY</span>
+        </div>
+
+        <div class="orbital-scene portal-orb" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+          <div class="planet"><div class="planet-shine"></div></div>
+          <div class="satellite satellite-one"></div>
+          <div class="satellite satellite-two"></div>
+          <span class="star star-one"></span>
+          <span class="star star-two"></span>
+        </div>
+
+        <div class="stage-bottom">
+          <span id="frequency-label">CYAN / 01</span>
+          <span>EXPERIMENTAL VISUAL DEMO</span>
+        </div>
+      </div>
+
+      <aside class="glass-card console reveal">
+        <div class="eyebrow">EXPERIENCE CONTROLS</div>
+        <h2>Set the mood.</h2>
+        <p>Your controls for this little corner of the universe.</p>
+
+        <fieldset class="control-group">
+          <legend>01 — Atmosphere</legend>
+          <div class="swatches">
+            <button class="swatch cyan selected" type="button"
+              data-theme="cyan" aria-label="Cyan atmosphere" aria-pressed="true"></button>
+            <button class="swatch violet" type="button"
+              data-theme="violet" aria-label="Violet atmosphere" aria-pressed="false"></button>
+            <button class="swatch rose" type="button"
+              data-theme="rose" aria-label="Rose atmosphere" aria-pressed="false"></button>
+            <button class="swatch amber" type="button"
+              data-theme="amber" aria-label="Amber atmosphere" aria-pressed="false"></button>
+          </div>
+        </fieldset>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="intensity">02 — Core luminosity</label>
+            <output id="intensity-value" for="intensity">75%</output>
+          </div>
+          <input id="intensity" type="range" min="30" max="100" value="75">
+        </div>
+
+        <div class="control-group motion-control">
+          <div>
+            <label for="motion">03 — Orbital motion</label>
+            <small>Let the core drift.</small>
+          </div>
+          <input id="motion" class="switch" type="checkbox" checked>
+        </div>
+
+        <button class="button button-primary launch-button" id="launch" type="button">
+          Initialize portal <span aria-hidden="true">↗</span>
+        </button>
+
+        <p class="console-status" id="portal-status" role="status" aria-live="polite">
+          Ready when you are.
+        </p>
+
+        <div class="console-footnote">
+          This is an interactive visual concept. No account,
+          connection, or personal data is required.
+        </div>
+      </aside>
+    </section>
+
+    <section class="section portal-details">
+      <article class="reveal">
+        <span class="eyebrow">01 / PERSONALIZE</span>
+        <h3>Choose your spectrum.</h3>
+        <p>Four distinct palettes. One familiar world, seen in a different light.</p>
+      </article>
+      <article class="reveal">
+        <span class="eyebrow">02 / SLOW DOWN</span>
+        <h3>Take a quieter orbit.</h3>
+        <p>Pause orbital motion whenever you prefer a still atmosphere.</p>
+      </article>
+      <article class="reveal">
+        <span class="eyebrow">03 / EXPLORE</span>
+        <h3>Stay curious.</h3>
+        <p>This portal is a visual playground, not a destination with an ending.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <a class="brand" href="index.html">AETHERIA.</a>
+    <p>A concept beyond the ordinary.</p>
+    <span>© <span data-year></span> Aetheria</span>
+  </footer>
+</body>
+</html>
